@@ -1,0 +1,14 @@
+.aboutPage {
+  justify-self: center;
+  text-align: center;
+}
+
+.about-text {
+  background-color: bisque;
+  width: 100vh;
+  height: 50vh;
+  border-radius: 1%;
+  padding: 50px;
+  font-size: 1.5em;
+  text-align: center;
+}
