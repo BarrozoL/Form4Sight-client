@@ -1,9 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import "../css/Homepage.css";
 
 export default function Homepage() {
   const [symbol, setSymbol] = useState("");
   const [insider, setInsider] = useState("");
+  const [companies, setCompanies] = useState([]);
+
+  useEffect(() => {
+    getCompanyData();
+  }, []);
+
+  const getCompanyData = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/insiders");
+      console.log(response.data);
+      setCompanies(response.data);
+    } catch (error) {
+      console.error("Company data not found", error);
+    }
+  };
 
   return (
     <>
@@ -30,15 +46,19 @@ export default function Homepage() {
           </thead>
 
           <tbody>
-            <tr>
-              <td>Company name</td>
-              <td>Insider name</td>
-              <td>date</td>
-              <td>10</td>
-              <td>10</td>
-              <td>0</td>
-              <td>10</td>
-            </tr>
+            {companies?.map((insider) => {
+              return (
+                <tr key={insider?.id}>
+                  <td>{insider?.name}</td>
+                  <td>{insider?.insider}</td>
+                  <td>{insider?.date}</td>
+                  <td>{insider?.stocksacq}</td>
+                  <td>{insider?.stocksdis}</td>
+                  <td>{insider?.optionsacq}</td>
+                  <td>{insider?.optionsdis}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
 
